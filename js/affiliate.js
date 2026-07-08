@@ -1,23 +1,26 @@
 /**
  * Shopee Affiliate Link Manager
  * ===============================
- * วิธีใช้:
- * 1. เอาลิงก์ Affiliate จาก Shopee Affiliate Dashboard
- * 2. ใส่ใน affiliateLinks object ด้านล่าง (key ตรงกับ data-affiliate ใน HTML)
- * 3. เวลาคนคลิกปุ่มซื้อ → ไปที่ลิงก์ affiliate + เก็บ click ใน localStorage
+ * จับคู่ลิงก์ตามลำดับที่ชัยส่ง:
+ * 1. SoundPEATS Air6 HS
+ * 2. Bass BP1 Pro
+ * 3. ANKER Soundcore R50i NC
+ * 4. Edifier X1 Lite
+ * 5. Redmi Buds 6 Active
+ * 6. Erazer XT80 Pro
+ * 7. QCY Buds ANC
+ * 8. Vention ECHO CLIP A1
  */
 
 const affiliateLinks = {
-    'YOUR_AFFILIATE_LINK_1': 'https://shopee.co.th/product-link-1',
-    'YOUR_AFFILIATE_LINK_2': 'https://shopee.co.th/product-link-2',
-    'YOUR_AFFILIATE_LINK_3': 'https://shopee.co.th/product-link-3',
-    'YOUR_AFFILIATE_LINK_4': 'https://shopee.co.th/product-link-4',
-    'YOUR_AFFILIATE_LINK_5': 'https://shopee.co.th/product-link-5',
-    'YOUR_AFFILIATE_LINK_6': 'https://shopee.co.th/product-link-6',
-    'YOUR_AFFILIATE_LINK_7': 'https://shopee.co.th/product-link-7',
-    'YOUR_AFFILIATE_LINK_8': 'https://shopee.co.th/product-link-8',
-    'YOUR_AFFILIATE_LINK_9': 'https://shopee.co.th/product-link-9',
-    'YOUR_AFFILIATE_LINK_10': 'https://shopee.co.th/product-link-10',
+    'AFF_1': 'https://s.shopee.co.th/LlTAt3RiN',
+    'AFF_2': 'https://s.shopee.co.th/5fmzX3Vabb',
+    'AFF_3': 'https://s.shopee.co.th/6ffWj0fw31',
+    'AFF_4': 'https://s.shopee.co.th/5VTZKw99vq',
+    'AFF_5': 'https://s.shopee.co.th/qhjmXVlIX',
+    'AFF_6': 'https://s.shopee.co.th/903RVfEgee',
+    'AFF_7': 'https://s.shopee.co.th/8Knkia9wii',
+    'AFF_8': 'https://s.shopee.co.th/3LP4lXBfGc',
 };
 
 // ========== Click Tracking ==========
@@ -35,17 +38,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const key = btn.getAttribute('data-affiliate');
         const url = affiliateLinks[key];
 
-        if (url && url !== 'https://shopee.co.th/product-link-' + key.slice(-1)) {
+        if (url) {
             btn.href = url;
             btn.target = '_blank';
             btn.rel = 'nofollow sponsored noopener';
-
-            btn.addEventListener('click', () => {
-                trackClick(key);
-            });
+            btn.addEventListener('click', () => trackClick(key));
         } else {
-            // ยังไม่ได้ใส่ affiliate link จริง — แจ้งเตือนใน console
-            console.warn('⚠️ ยังไม่ได้ใส่ Shopee Affiliate Link สำหรับ:', key);
+            console.warn('⚠️ ไม่พบ affiliate link สำหรับ:', key);
             btn.href = '#';
             btn.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -54,6 +53,5 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Log stats (dev helper)
-    console.log('📊 Affiliate clicks today:', JSON.parse(localStorage.getItem('aff_clicks') || '{}'));
+    console.log('📊 Affiliate clicks:', JSON.parse(localStorage.getItem('aff_clicks') || '{}'));
 });
